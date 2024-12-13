@@ -72,7 +72,7 @@ const Header = () => {
           <button>로그아웃</button>
         </div>
       </div>
-      <div className="flex gap-[8px] mt-[12px]">
+      <div className="flex gap-[8px] mt-[4px]">
         {menus.map((menu) => (
           <TabBox key={menu.name} tab={menu} />
         ))}

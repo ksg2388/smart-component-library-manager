@@ -226,28 +226,24 @@ const Page = () => {
   }, []);
 
   return (
-    <div className="bg-gray-800 min-h-screen p-4">
-      <div className="border-2 border-white min-w-screen p-4 h-auto mb-8">
-        <h1 className="text-white font-bold text-2xl">통계 및 리포트</h1>
-      </div>
-
+    <div className="flex-1 mt-[12px]">
       {/* 상단 3개 차트 */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
         <div className="bg-gray-900 p-4 rounded-lg shadow-lg">
           <h2 className="text-white text-lg mb-2">컴포넌트 사용 빈도</h2>
-          <div className="h-[250px]">
+          <div className="h-[234px]">
             <canvas ref={chartRefs.chart1} />
           </div>
         </div>
         <div className="bg-gray-900 p-4 rounded-lg shadow-lg">
           <h2 className="text-white text-lg mb-2">카테고리별 데이터</h2>
-          <div className="h-[250px]">
+          <div className="h-[234px]">
             <canvas ref={chartRefs.chart2} />
           </div>
         </div>
         <div className="bg-gray-900 p-4 rounded-lg shadow-lg">
           <h2 className="text-white text-lg mb-2">검색 패턴</h2>
-          <div className="h-[250px]">
+          <div className="h-[234px]">
             <canvas ref={chartRefs.chart3} />
           </div>
         </div>
@@ -257,13 +253,13 @@ const Page = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="bg-gray-900 p-4 rounded-lg shadow-lg">
           <h2 className="text-white text-lg mb-2">업데이트 기록</h2>
-          <div className="h-[250px]">
+          <div className="h-[234px]">
             <canvas ref={chartRefs.chart4} />
           </div>
         </div>
         <div className="bg-gray-900 p-4 rounded-lg shadow-lg">
           <h2 className="text-white text-lg mb-2">다운로드 내역</h2>
-          <div className="h-[250px]">
+          <div className="h-[234px]">
             <canvas ref={chartRefs.chart5} />
           </div>
         </div>
