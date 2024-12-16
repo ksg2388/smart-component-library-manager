@@ -7,9 +7,9 @@ type Props = {
 
 const layout = ({ children }: Props) => {
   return (
-    <div className="bg-[#2E2E36] h-screen px-[20px] py-[20px]">
+    <div className="h-screen min-h-[900px] px-[20px] py-[20px] flex flex-col">
       <Header />
-      <div>{children}</div>
+      <div className="flex-1 mb-[12px]">{children}</div>
     </div>
   );
 };
