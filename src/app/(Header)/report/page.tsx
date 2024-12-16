@@ -1,8 +1,13 @@
 "use client";
 
-import { type Chart as ChartJS, ChartData, ChartOptions } from "chart.js/auto";
-import { Chart } from "chart.js/auto";
-import { useEffect, useRef } from "react";
+import {
+  Chart,
+  type Chart as ChartJS,
+  ChartData,
+  ChartOptions,
+} from "chart.js/auto";
+import { Grid, Maximize2, Minimize2, X } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 
 type ChartType = "bar" | "line" | "radar" | "polarArea" | "pie";
 
@@ -12,14 +17,91 @@ interface ChartConfig {
   options: ChartOptions;
 }
 
+interface ChartCardProps {
+  title: string;
+  children: React.ReactNode;
+  onClose?: () => void;
+  onMaximize?: () => void;
+  isMaximized?: boolean;
+}
+
+function ChartCard({
+  title,
+  children,
+  onClose,
+  onMaximize,
+  isMaximized,
+}: ChartCardProps) {
+  return (
+    <div
+      className={`bg-gray-900 rounded-lg shadow-lg overflow-hidden ${
+        isMaximized
+          ? "bg-gray-900 rounded-lg shadow-lg overflow-hidden fixed top-0 left-0 w-full h-full z-50"
+          : ""
+      }`}
+    >
+      <div className="flex items-center justify-between px-4 py-2 bg-gray-800">
+        <h2 className="text-white text-lg font-medium">{title}</h2>
+        <div className="flex items-center space-x-2">
+          <button
+            className="p-1 hover:bg-gray-700 rounded"
+            onClick={onMaximize}
+          >
+            {isMaximized ? (
+              <Minimize2 className="w-4 h-4 text-gray-400" />
+            ) : (
+              <Maximize2 className="w-4 h-4 text-gray-400" />
+            )}
+          </button>
+          {/* 최대화 상태일 때 X 버튼 숨기기 */}
+          {!isMaximized && onClose && (
+            <button className="p-1 hover:bg-gray-700 rounded" onClick={onClose}>
+              <X className="w-4 h-4 text-gray-400" />
+            </button>
+          )}
+        </div>
+      </div>
+      <div className={`p-4 ${isMaximized ? "h-[calc(100%-50px)]" : ""}`}>
+        {children}
+      </div>
+    </div>
+  );
+}
+
+type ChartRef = HTMLCanvasElement & { chartInstance?: Chart };
+
 const Page = () => {
+  const [chartVisibility, setChartVisibility] = useState<{
+    chart1: boolean;
+    chart2: boolean;
+    chart3: boolean;
+    chart4: boolean;
+    chart5: boolean;
+  }>({
+    chart1: true,
+    chart2: true,
+    chart3: true,
+    chart4: true,
+    chart5: true,
+  });
+
+  const [maximizedChart, setMaximizedChart] = useState<string | null>(null);
+
   const chartRefs = {
-    chart1: useRef<HTMLCanvasElement>(null),
-    chart2: useRef<HTMLCanvasElement>(null),
-    chart3: useRef<HTMLCanvasElement>(null),
-    chart4: useRef<HTMLCanvasElement>(null),
-    chart5: useRef<HTMLCanvasElement>(null),
+    chart1: useRef<ChartRef>(null),
+    chart2: useRef<ChartRef>(null),
+    chart3: useRef<ChartRef>(null),
+    chart4: useRef<ChartRef>(null),
+    chart5: useRef<ChartRef>(null),
   };
+
+  function generateRandomData() {
+    const data = [];
+    for (let i = 0; i < 12; i++) {
+      data.push(Math.floor(Math.random() * 100)); // 0 ~ 100 사이의 랜덤 값
+    }
+    return data;
+  }
 
   const getChartConfigs = (): Record<keyof typeof chartRefs, ChartConfig> => ({
     chart1: {
@@ -55,9 +137,20 @@ const Page = () => {
         responsive: true,
         maintainAspectRatio: false,
         indexAxis: "y", // Horizontal bar chart
+        scales: {
+          x: {
+            grid: {
+              color: "#45454573",
+            },
+          },
+          y: {
+            grid: {
+              color: "#45454573",
+            },
+          },
+        },
       },
     },
-
     chart2: {
       type: "bar",
       data: {
@@ -95,7 +188,7 @@ const Page = () => {
             beginAtZero: true,
             max: 100,
             grid: {
-              color: "rgba(255, 255, 255, 0.1)",
+              color: "rgba(142, 142, 142, 0.1)",
             },
           },
           x: {
@@ -106,7 +199,6 @@ const Page = () => {
         },
       },
     },
-
     chart3: {
       type: "radar",
       data: {
@@ -132,28 +224,82 @@ const Page = () => {
       options: {
         responsive: true,
         maintainAspectRatio: false,
+        scales: {
+          r: {
+            grid: {
+              color: "#454545",
+            },
+          },
+        },
       },
     },
-
     chart4: {
-      type: "polarArea",
+      type: "line",
       data: {
-        labels: ["2022", "2023", "2024"],
+        labels: [
+          "Jan",
+          "Feb",
+          "Mar",
+          "Apr",
+          "May",
+          "Jun",
+          "Jul",
+          "Aug",
+          "Sep",
+          "Oct",
+          "Nov",
+          "Dec",
+        ],
         datasets: [
           {
-            data: [40, 50, 60],
-            backgroundColor: [
-              "rgba(255, 99, 132, 0.6)",
-              "rgba(54, 162, 235, 0.6)",
-              "rgba(255, 205, 86, 0.6)",
-            ],
-            borderColor: "rgba(0, 0, 0, 0)",
+            label: "Dataset 1 (2022)",
+            data: generateRandomData(), // 랜덤 데이터 생성
+            backgroundColor: "rgba(255, 99, 132, 0.2)",
+            borderColor: "rgba(255, 99, 132, 1)",
+            borderWidth: 2,
+            fill: true,
+            yAxisID: "y1", // 첫 번째 y축
+          },
+          {
+            label: "Dataset 2 (2023)",
+            data: generateRandomData(), // 랜덤 데이터 생성
+            backgroundColor: "rgba(54, 162, 235, 0.2)",
+            borderColor: "rgba(54, 162, 235, 1)",
+            borderWidth: 2,
+            fill: true,
+            yAxisID: "y2", // 두 번째 y축
+          },
+          {
+            label: "Dataset 3 (2024)",
+            data: generateRandomData(), // 랜덤 데이터 생성
+            backgroundColor: "rgba(255, 205, 86, 0.2)",
+            borderColor: "rgba(255, 205, 86, 1)",
+            borderWidth: 2,
+            fill: true,
+            yAxisID: "y1", // 첫 번째 y축
           },
         ],
       },
       options: {
         responsive: true,
         maintainAspectRatio: false,
+        scales: {
+          y1: {
+            type: "linear",
+            position: "left",
+            grid: {
+              color: "#454545",
+              drawOnChartArea: false, // only want the grid lines for one axis to show up
+            },
+          },
+          y2: {
+            type: "linear",
+            position: "right",
+            grid: {
+              color: "#454545",
+            },
+          },
+        },
       },
     },
 
@@ -170,7 +316,7 @@ const Page = () => {
         ],
         datasets: [
           {
-            data: [144, 213, 128, 222, 226], // 각 컴포넌트의 다운로드 수치
+            data: [144, 213, 128, 222, 226],
             backgroundColor: [
               "rgba(255, 99, 132, 0.6)",
               "rgba(54, 162, 235, 0.6)",
@@ -190,81 +336,205 @@ const Page = () => {
           tooltip: {
             callbacks: {
               label: (context) => {
-                const value = context.raw as number; // 타입 단언을 사용하여 unknown을 number로 변환
+                const value = context.raw as number;
                 const label: string = context.label as string;
-                const percentage = (value / 1133) * 100; // 퍼센트 계산
-                return `${label}: ${value} (${percentage.toFixed(2)}%)`; // 퍼센트를 소수점 2자리로 표시
+                const percentage = (value / 1133) * 100;
+                return `${label}: ${value} (${percentage.toFixed(2)}%)`;
               },
             },
+          },
+          legend: {
+            position: "right",
           },
         },
       },
     },
   });
 
-  useEffect(() => {
-    const chartInstances: ChartJS[] = [];
-    const configs = getChartConfigs();
+  function handleClose(chartId: string) {
+    setChartVisibility((prevState) => ({
+      ...prevState,
+      [chartId]: false,
+    }));
+  }
 
-    Object.entries(chartRefs).forEach(([key, ref]) => {
-      if (ref.current) {
-        const ctx = ref.current.getContext("2d");
+  function handleMaximize(chartId: string | null) {
+    setMaximizedChart((prev) => (prev === chartId ? null : chartId));
+  }
+
+  useEffect(() => {
+    if (maximizedChart) {
+      const chartRef = chartRefs[maximizedChart as keyof typeof chartRefs];
+      if (chartRef.current) {
+        const ctx = chartRef.current.getContext("2d");
+        const configs = getChartConfigs();
+        const chartConfig = configs[maximizedChart as keyof typeof chartRefs];
+
+        const chartInstance = new Chart(ctx!, {
+          type: chartConfig.type,
+          data: chartConfig.data,
+          options: chartConfig.options,
+        });
+
+        return () => chartInstance.destroy();
+      }
+    }
+  }, [maximizedChart]);
+
+  useEffect(() => {
+    Object.keys(chartRefs).forEach((chartId) => {
+      const chartRef = chartRefs[chartId as keyof typeof chartRefs];
+      if (chartRef.current) {
+        const ctx = chartRef.current.getContext("2d");
+        const configs = getChartConfigs();
+        const chartConfig = configs[chartId as keyof typeof chartRefs];
+
         if (ctx) {
-          const config = configs[key as keyof typeof chartRefs];
-          const chart = new Chart(ctx, {
-            type: config.type,
-            data: config.data,
-            options: config.options,
+          // 이전 차트가 존재하면 파괴
+          if (chartRef.current.chartInstance) {
+            chartRef.current.chartInstance.destroy();
+          }
+
+          // 새 차트 생성
+          const chartInstance = new Chart(ctx, {
+            type: chartConfig.type,
+            data: chartConfig.data,
+            options: chartConfig.options,
           });
-          chartInstances.push(chart);
+
+          // 차트 인스턴스를 reference에 저장
+          chartRef.current.chartInstance = chartInstance;
         }
       }
     });
-
-    return () => {
-      chartInstances.forEach((chart) => chart.destroy());
-    };
-  }, []);
+  }, [chartVisibility]); // chartVisibility 변경 시마다 차트를 재생성
 
   return (
-    <div className="flex-1 mt-[12px]">
+    <div className="flex-1 mt-[12px] relative">
       {/* 상단 3개 차트 */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-        <div className="bg-gray-900 p-4 rounded-lg shadow-lg">
-          <h2 className="text-white text-lg mb-2">컴포넌트 사용 빈도</h2>
-          <div className="h-[270px]">
-            <canvas ref={chartRefs.chart1} />
-          </div>
-        </div>
-        <div className="bg-gray-900 p-4 rounded-lg shadow-lg">
-          <h2 className="text-white text-lg mb-2">카테고리별 데이터</h2>
-          <div className="h-[270px]">
-            <canvas ref={chartRefs.chart2} />
-          </div>
-        </div>
-        <div className="bg-gray-900 p-4 rounded-lg shadow-lg">
-          <h2 className="text-white text-lg mb-2">검색 패턴</h2>
-          <div className="h-[270px]">
-            <canvas ref={chartRefs.chart3} />
-          </div>
-        </div>
+      <div
+        className={`grid gap-4 mb-2 ${
+          maximizedChart ? "hidden" : "grid-cols-1 md:grid-cols-3"
+        }`}
+      >
+        {chartVisibility.chart1 && (
+          <ChartCard
+            title="컴포넌트 사용 빈도"
+            onClose={() => handleClose("chart1")}
+            onMaximize={() => handleMaximize("chart1")}
+            isMaximized={maximizedChart === "chart1"}
+          >
+            <div
+              style={{
+                height:
+                  maximizedChart === "chart1" ? "calc(100% - 50px)" : "270px",
+              }}
+            >
+              <canvas ref={chartRefs.chart1} />
+            </div>
+          </ChartCard>
+        )}
+        {chartVisibility.chart2 && (
+          <ChartCard
+            title="카테고리별 다운로드"
+            onClose={() => handleClose("chart2")}
+            onMaximize={() => handleMaximize("chart2")}
+            isMaximized={maximizedChart === "chart2"}
+          >
+            <div
+              className={`h-${
+                maximizedChart === "chart2" ? "[calc(100%-50px)]" : "[270px]"
+              }`}
+            >
+              <canvas ref={chartRefs.chart2} />
+            </div>
+          </ChartCard>
+        )}
+        {chartVisibility.chart3 && (
+          <ChartCard
+            title="검색 패턴"
+            onClose={() => handleClose("chart3")}
+            onMaximize={() => handleMaximize("chart3")}
+            isMaximized={maximizedChart === "chart3"}
+          >
+            <div
+              className={`h-${
+                maximizedChart === "chart3" ? "[calc(100%-50px)]" : "[270px]"
+              }`}
+            >
+              <canvas ref={chartRefs.chart3} />
+            </div>
+          </ChartCard>
+        )}
       </div>
 
       {/* 하단 2개 차트 */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div className="bg-gray-900 p-4 rounded-lg shadow-lg">
-          <h2 className="text-white text-lg mb-2">업데이트 기록</h2>
-          <div className="h-[270px]">
-            <canvas ref={chartRefs.chart4} />
-          </div>
-        </div>
-        <div className="bg-gray-900 p-4 rounded-lg shadow-lg">
-          <h2 className="text-white text-lg mb-2">다운로드 내역</h2>
-          <div className="h-[270px]">
-            <canvas ref={chartRefs.chart5} />
-          </div>
-        </div>
+      <div
+        className={`grid gap-4 ${
+          maximizedChart ? "hidden" : "grid-cols-1 md:grid-cols-2"
+        }`}
+      >
+        {chartVisibility.chart4 && (
+          <ChartCard
+            title="업데이트 기록"
+            onClose={() => handleClose("chart4")}
+            onMaximize={() => handleMaximize("chart4")}
+            isMaximized={maximizedChart === "chart4"}
+          >
+            <div
+              className={`h-${
+                maximizedChart === "chart4" ? "[calc(100%-50px)]" : "[270px]"
+              }`}
+            >
+              <canvas ref={chartRefs.chart4} />
+            </div>
+          </ChartCard>
+        )}
+        {chartVisibility.chart5 && (
+          <ChartCard
+            title="다운로드 내역"
+            onClose={() => handleClose("chart5")}
+            onMaximize={() => handleMaximize("chart5")}
+            isMaximized={maximizedChart === "chart5"}
+          >
+            <div
+              className={`h-${
+                maximizedChart === "chart5" ? "[calc(100%-50px)]" : "[270px]"
+              }`}
+            >
+              <canvas ref={chartRefs.chart5} />
+            </div>
+          </ChartCard>
+        )}
       </div>
+
+      {/* 최대화 상태일 때 */}
+      {maximizedChart && (
+        <div className="absolute inset-0 bg-white z-10 p-4">
+          <ChartCard
+            title={
+              maximizedChart === "chart1"
+                ? "컴포넌트 사용 빈도"
+                : maximizedChart === "chart2"
+                ? "카테고리별 다운로드"
+                : maximizedChart === "chart3"
+                ? "검색 패턴"
+                : maximizedChart === "chart4"
+                ? "업데이트 기록"
+                : "다운로드 내역역"
+            }
+            onClose={() => handleClose(maximizedChart)}
+            onMaximize={() => handleMaximize(null)}
+            isMaximized={true}
+          >
+            <div className="h-full">
+              <canvas
+                ref={chartRefs[maximizedChart as keyof typeof chartRefs]}
+              />
+            </div>
+          </ChartCard>
+        </div>
+      )}
     </div>
   );
 };
