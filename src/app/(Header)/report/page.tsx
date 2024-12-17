@@ -1,12 +1,7 @@
 "use client";
 
-import {
-  Chart,
-  type Chart as ChartJS,
-  ChartData,
-  ChartOptions,
-} from "chart.js/auto";
-import { Grid, Maximize2, Minimize2, X } from "lucide-react";
+import { Chart, ChartData, ChartOptions } from "chart.js/auto";
+import { Maximize2, Minimize2, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
 type ChartType = "bar" | "line" | "radar" | "polarArea" | "pie";
