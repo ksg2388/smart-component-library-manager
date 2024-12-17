@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -11,21 +11,12 @@ type CarouselProps = {
 };
 
 const Carousel: React.FC<CarouselProps> = ({ items }) => {
-  const [currentSlide, setCurrentSlide] = useState(0);
-  const [slideCount, setSlideCount] = useState(items.length);
-
   const settings = {
     dots: true,
     infinite: true,
     speed: 500,
     slidesToShow: 3,
     slidesToScroll: 1,
-    beforeChange: (current: number, next: number) => {
-      setCurrentSlide(next);
-    },
-    afterChange: (current: number) => {
-      setCurrentSlide(current);
-    },
     responsive: [
       {
         breakpoint: 768,
