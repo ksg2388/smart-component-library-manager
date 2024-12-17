@@ -1,9 +1,11 @@
 "use client";
 
+import Image from "next/image";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
 type TLibrary = {
-  seleted: boolean;
+  selected: boolean;
   name: string;
   version: string;
   registrationDate: string;
@@ -13,275 +15,303 @@ type TLibrary = {
   downloadLink: string;
 };
 
-const libraryList: TLibrary[] = [
+const initialLibraryList: TLibrary[] = [
   {
-    seleted: false,
-    name: "component1",
-    version: "1.5.3",
-    registrationDate: "2024.11.20",
-    update: "2024.11.20",
-    frequency: 127,
+    selected: false,
+    name: "UI Kit",
+    version: "3.2.1",
+    registrationDate: "2024.10.01",
+    update: "2024.11.15",
+    frequency: 500,
     state: "사용 가능",
     downloadLink: "",
   },
   {
-    seleted: false,
-    name: "component2",
-    version: "2.1.3",
-    registrationDate: "2024.11.03",
-    update: "2024.11.17",
-    frequency: 8712,
+    selected: false,
+    name: "Authentication Module",
+    version: "2.5.4",
+    registrationDate: "2024.09.12",
+    update: "2024.11.01",
+    frequency: 3200,
     state: "사용 가능",
     downloadLink: "",
   },
   {
-    seleted: false,
-    name: "component1",
-    version: "1.5.3",
-    registrationDate: "2024.11.20",
-    update: "2024.11.20",
-    frequency: 127,
+    selected: false,
+    name: "Data Grid",
+    version: "1.8.0",
+    registrationDate: "2024.08.20",
+    update: "2024.10.05",
+    frequency: 1500,
     state: "사용 가능",
     downloadLink: "",
   },
   {
-    seleted: false,
-    name: "component2",
-    version: "2.1.3",
-    registrationDate: "2024.11.03",
-    update: "2024.11.17",
-    frequency: 8712,
+    selected: false,
+    name: "Chart Library",
+    version: "4.1.3",
+    registrationDate: "2024.07.14",
+    update: "2024.10.20",
+    frequency: 2000,
     state: "사용 가능",
     downloadLink: "",
   },
   {
-    seleted: false,
-    name: "component1",
-    version: "1.5.3",
-    registrationDate: "2024.11.20",
-    update: "2024.11.20",
-    frequency: 127,
+    selected: false,
+    name: "Form Builder",
+    version: "3.0.2",
+    registrationDate: "2024.06.01",
+    update: "2024.09.30",
+    frequency: 870,
     state: "사용 가능",
     downloadLink: "",
   },
   {
-    seleted: false,
-    name: "component2",
-    version: "2.1.3",
-    registrationDate: "2024.11.03",
-    update: "2024.11.17",
-    frequency: 8712,
+    selected: false,
+    name: "Notification Service",
+    version: "1.2.5",
+    registrationDate: "2024.05.18",
+    update: "2024.08.22",
+    frequency: 1420,
     state: "사용 가능",
     downloadLink: "",
   },
   {
-    seleted: false,
-    name: "component1",
-    version: "1.5.3",
-    registrationDate: "2024.11.20",
-    update: "2024.11.20",
-    frequency: 127,
+    selected: false,
+    name: "File Uploader",
+    version: "2.4.1",
+    registrationDate: "2024.04.11",
+    update: "2024.07.15",
+    frequency: 1230,
     state: "사용 가능",
     downloadLink: "",
   },
   {
-    seleted: false,
-    name: "component2",
-    version: "2.1.3",
-    registrationDate: "2024.11.03",
-    update: "2024.11.17",
-    frequency: 8712,
+    selected: false,
+    name: "PDF Viewer",
+    version: "5.3.0",
+    registrationDate: "2024.03.25",
+    update: "2024.06.10",
+    frequency: 890,
     state: "사용 가능",
     downloadLink: "",
   },
   {
-    seleted: false,
-    name: "component1",
-    version: "1.5.3",
-    registrationDate: "2024.11.20",
-    update: "2024.11.20",
-    frequency: 127,
+    selected: false,
+    name: "Scheduler",
+    version: "4.0.7",
+    registrationDate: "2024.02.15",
+    update: "2024.05.22",
+    frequency: 980,
     state: "사용 가능",
     downloadLink: "",
   },
   {
-    seleted: false,
-    name: "component2",
-    version: "2.1.3",
-    registrationDate: "2024.11.03",
-    update: "2024.11.17",
-    frequency: 8712,
+    selected: false,
+    name: "Image Cropper",
+    version: "2.1.6",
+    registrationDate: "2024.01.30",
+    update: "2024.04.25",
+    frequency: 450,
     state: "사용 가능",
     downloadLink: "",
   },
   {
-    seleted: false,
-    name: "component1",
-    version: "1.5.3",
-    registrationDate: "2024.11.20",
-    update: "2024.11.20",
-    frequency: 127,
+    selected: false,
+    name: "User Management",
+    version: "3.1.2",
+    registrationDate: "2023.12.12",
+    update: "2024.03.20",
+    frequency: 3600,
     state: "사용 가능",
     downloadLink: "",
   },
   {
-    seleted: false,
-    name: "component2",
-    version: "2.1.3",
-    registrationDate: "2024.11.03",
-    update: "2024.11.17",
-    frequency: 8712,
+    selected: false,
+    name: "Dashboard Widgets",
+    version: "4.5.8",
+    registrationDate: "2023.11.05",
+    update: "2024.02.18",
+    frequency: 2750,
     state: "사용 가능",
     downloadLink: "",
   },
   {
-    seleted: false,
-    name: "component1",
-    version: "1.5.3",
-    registrationDate: "2024.11.20",
-    update: "2024.11.20",
-    frequency: 127,
+    selected: false,
+    name: "Theme Manager",
+    version: "1.9.0",
+    registrationDate: "2023.10.20",
+    update: "2024.01.15",
+    frequency: 640,
     state: "사용 가능",
     downloadLink: "",
   },
   {
-    seleted: false,
-    name: "component2",
-    version: "2.1.3",
-    registrationDate: "2024.11.03",
-    update: "2024.11.17",
-    frequency: 8712,
+    selected: false,
+    name: "Error Tracker",
+    version: "2.2.1",
+    registrationDate: "2023.09.14",
+    update: "2023.12.30",
+    frequency: 2100,
     state: "사용 가능",
     downloadLink: "",
   },
   {
-    seleted: false,
-    name: "component1",
-    version: "1.5.3",
-    registrationDate: "2024.11.20",
-    update: "2024.11.20",
-    frequency: 127,
+    selected: false,
+    name: "API Gateway",
+    version: "3.4.5",
+    registrationDate: "2023.08.01",
+    update: "2023.11.10",
+    frequency: 1900,
     state: "사용 가능",
     downloadLink: "",
   },
   {
-    seleted: false,
-    name: "component2",
-    version: "2.1.3",
-    registrationDate: "2024.11.03",
-    update: "2024.11.17",
-    frequency: 8712,
+    selected: false,
+    name: "Task Manager",
+    version: "1.7.4",
+    registrationDate: "2023.07.18",
+    update: "2023.10.05",
+    frequency: 1235,
     state: "사용 가능",
     downloadLink: "",
   },
   {
-    seleted: false,
-    name: "component1",
-    version: "1.5.3",
-    registrationDate: "2024.11.20",
-    update: "2024.11.20",
-    frequency: 127,
+    selected: false,
+    name: "Localization Module",
+    version: "2.8.3",
+    registrationDate: "2023.06.14",
+    update: "2023.09.25",
+    frequency: 840,
     state: "사용 가능",
     downloadLink: "",
   },
   {
-    seleted: false,
-    name: "component2",
-    version: "2.1.3",
-    registrationDate: "2024.11.03",
-    update: "2024.11.17",
-    frequency: 8712,
+    selected: false,
+    name: "Analytics Service",
+    version: "4.6.9",
+    registrationDate: "2023.05.30",
+    update: "2023.08.20",
+    frequency: 2750,
+    state: "사용 가능",
+    downloadLink: "",
+  },
+  {
+    selected: false,
+    name: "Multi-Tenant Module",
+    version: "3.3.1",
+    registrationDate: "2023.04.25",
+    update: "2023.07.30",
+    frequency: 1600,
+    state: "사용 가능",
+    downloadLink: "",
+  },
+  {
+    selected: false,
+    name: "Search Engine",
+    version: "5.2.4",
+    registrationDate: "2023.03.12",
+    update: "2023.06.18",
+    frequency: 3650,
     state: "사용 가능",
     downloadLink: "",
   },
 ];
 
 const LibraryList = () => {
+  const router = useRouter();
+  const [libraryList, setLibraryList] =
+    useState<TLibrary[]>(initialLibraryList);
   const [curPage, setCurPage] = useState(1);
+
   const itemsPerPage = 10;
   const totalPage = Math.ceil(libraryList.length / itemsPerPage);
-  const startIndex = Math.max((curPage - 1) * itemsPerPage, 0);
 
+  const startIndex = (curPage - 1) * itemsPerPage;
   const currentItems = libraryList.slice(startIndex, startIndex + itemsPerPage);
-  const emptyRows = Array.from(
-    { length: itemsPerPage - currentItems.length },
-    () => ({}) // 빈 객체로 표현
-  );
+
+  // 체크박스 상태 변경 함수
+  const toggleSelect = (index: number) => {
+    const updatedList = [...libraryList];
+    const actualIndex = startIndex + index;
+    updatedList[actualIndex].selected = !updatedList[actualIndex].selected;
+    setLibraryList(updatedList);
+  };
 
   // 페이지 이동 함수
   const goToPage = (page: number) => {
-    if (page < 1 || page > totalPage) return;
-    setCurPage(page);
+    if (page >= 1 && page <= totalPage) setCurPage(page);
   };
 
   return (
     <div className="flex-1 flex flex-col w-full mt-[16px]">
-      <div className="flex bg-[#8B8B8B] flex-1 w-full">
-        <p className="flex font-[600] items-center justify-center flex-[1.5]">
-          선택
-        </p>
-        <p className="flex font-[600] items-center justify-center flex-[8]">
-          이름
-        </p>
-        <p className="flex font-[600] items-center justify-center flex-[2]">
-          버전
-        </p>
-        <p className="flex font-[600] items-center justify-center flex-[4]">
-          등록일
-        </p>
-        <p className="flex font-[600] items-center justify-center flex-[4]">
-          업데이트
-        </p>
-        <p className="flex font-[600] items-center justify-center flex-[2]">
-          사용빈도
-        </p>
-        <p className="flex font-[600] items-center justify-center flex-[2]">
-          상태
-        </p>
-        <p className="flex font-[600] items-center justify-center flex-[2]">
-          다운로드
-        </p>
+      {/* 헤더 */}
+      <div className="flex bg-[#8B8B8B] w-full flex-1">
+        {[
+          { label: "선택", flex: "flex-[1.5]" },
+          { label: "이름", flex: "flex-[8]" },
+          { label: "버전", flex: "flex-[2]" },
+          { label: "등록일", flex: "flex-[4]" },
+          { label: "업데이트", flex: "flex-[4]" },
+          { label: "사용빈도", flex: "flex-[2]" },
+          { label: "상태", flex: "flex-[2]" },
+          { label: "다운로드", flex: "flex-[2]" },
+        ].map((header, index) => (
+          <p
+            key={index}
+            className={`flex font-[600] items-center justify-center ${header.flex}`}
+          >
+            {header.label}
+          </p>
+        ))}
       </div>
-      {[...currentItems, ...emptyRows].map((item, index) => (
+
+      {/* 리스트 */}
+      {currentItems.map((item, index) => (
         <div
-          className={`flex ${
-            Object.keys(item).length === 0 ? "bg-transparent" : "bg-[#CDCDCD]"
-          } flex-1 w-full`}
           key={index}
+          className="flex bg-[#CDCDCD] flex-1 w-full items-center"
         >
           <div className="flex font-[600] items-center justify-center flex-[1.5]">
-            {Object.keys(item).length !== 0 && (
-              <input
-                type="checkbox"
-                className="w-[24px] h-[24px]"
-                checked={item.seleted}
-                onChange={() => !item.seleted}
-              />
-            )}
+            <input
+              type="checkbox"
+              className="w-[24px] h-[24px]"
+              checked={item.selected}
+              onChange={() => toggleSelect(index)}
+            />
           </div>
-          <p className="flex font-[600] items-center justify-center flex-[8]">
-            {item.name || ""}
+          <p
+            className="flex font-[600] items-center justify-center flex-[8] cursor-pointer"
+            onClick={() => {
+              router.push("/manage/1");
+            }}
+          >
+            {item.name}
           </p>
           <p className="flex font-[600] items-center justify-center flex-[2]">
-            {item.version || ""}
+            {item.version}
           </p>
           <p className="flex font-[600] items-center justify-center flex-[4]">
-            {item.registrationDate || ""}
+            {item.registrationDate}
           </p>
           <p className="flex font-[600] items-center justify-center flex-[4]">
-            {item.update || ""}
+            {item.update}
           </p>
           <p className="flex font-[600] items-center justify-center flex-[2]">
-            {item.frequency || ""}
+            {item.frequency}
           </p>
           <p className="flex font-[600] items-center justify-center flex-[2]">
-            {item.state || ""}
+            {item.state}
           </p>
-          <p className="flex font-[600] items-center justify-center flex-[2]">
-            {item.downloadLink ? "다운로드" : ""}
-          </p>
+          <div className="flex font-[600] items-center justify-center flex-[2] relative">
+            <div className="w-[24px] h-[24px] relative">
+              <Image src={"/images/ic-download.png"} alt="donwload" fill />
+            </div>
+          </div>
         </div>
       ))}
+
+      {/* 페이지네이션 */}
       <div className="flex bg-[#8B8B8B] h-[56px] w-full items-center justify-center py-2">
         <button
           className="px-4 py-2 mx-2 bg-[#CDCDCD] rounded"

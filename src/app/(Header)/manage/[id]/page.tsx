@@ -1,6 +1,13 @@
+"use client";
+import Carousel from "@/app/_components/common/manage/ResponsiveSlider";
+import { useRouter } from "next/navigation";
 import React from "react";
 
-const page = () => {
+const items = ["Item 1", "Item 2", "Item 3", "Item 4", "Item 5", "Item 6"];
+
+const Page = () => {
+  const router = useRouter();
+
   return (
     <div className="h-full mt-[16px] flex flex-col">
       <div className="flex w-full">
@@ -9,7 +16,14 @@ const page = () => {
             다운로드
           </button>
         </div>
-        <div className="flex-[4]"></div>
+        <div className="flex-[4] flex justify-end">
+          <button
+            className=" text-white bg-black rounded-[6px] px-[8px] py-[6px]"
+            onClick={() => router.back()}
+          >
+            목록
+          </button>
+        </div>
       </div>
       <div className="flex flex-[3] w-full mt-[16px]">
         <div className="flex-[3] flex">
@@ -82,8 +96,12 @@ const page = () => {
         </div>
       </div>
 
-      <div className="flex flex-[2] w-full mt-[16px] mb-[4px]">
-        <div className="flex-[3] flex bg-[#D9D9D9]"></div>
+      <div className="flex flex-[2] w-full mt-[4px] mb-[4px]">
+        {/* 좌측 하단 */}
+        <div className="flex-[3] flex bg-[#D9D9D9] relative w-[300px]">
+          <Carousel items={items} />
+        </div>
+        {/* 우측 하단 */}
         <div className="flex-[4] flex bg-[#D9D9D9] ml-[12px]">
           <div className="w-full h-full">
             <div className="max-h-[214px] overflow-y-scroll">
@@ -127,4 +145,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

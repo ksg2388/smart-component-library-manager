@@ -50,7 +50,9 @@ const page = () => {
       <div className="flex justify-end mt-[16px] w-full">
         <div className="flex text-white">
           <p className="font-[600]">정렬기준</p>
-          <span className="ml-[24px]">최신순</span>
+          <span className="ml-[24px] border-b-[1px] border-white pb-[2px]">
+            최신순
+          </span>
           <span className="ml-[24px]">업데이트순</span>
           <span className="ml-[24px] mr-[8px]">사용빈도순</span>
         </div>
