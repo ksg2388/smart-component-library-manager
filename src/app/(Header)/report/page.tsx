@@ -410,7 +410,7 @@ const Page = () => {
   }, [chartVisibility]); // chartVisibility 변경 시마다 차트를 재생성
 
   return (
-    <div className="flex-1 mt-[12px] relative">
+    <div className="flex-1 mt-[12px] relative overflow-hidden">
       {/* 상단 3개 차트 */}
       <div
         className={`grid gap-4 mb-2 ${
@@ -428,6 +428,7 @@ const Page = () => {
               style={{
                 height:
                   maximizedChart === "chart1" ? "calc(100% - 50px)" : "270px",
+                overflow: "hidden",
               }}
             >
               <canvas ref={chartRefs.chart1} />
@@ -442,9 +443,11 @@ const Page = () => {
             isMaximized={maximizedChart === "chart2"}
           >
             <div
-              className={`h-${
-                maximizedChart === "chart2" ? "[calc(100%-50px)]" : "[270px]"
-              }`}
+              style={{
+                height:
+                  maximizedChart === "chart2" ? "calc(100% - 50px)" : "270px",
+                overflow: "hidden",
+              }}
             >
               <canvas ref={chartRefs.chart2} />
             </div>
@@ -458,9 +461,11 @@ const Page = () => {
             isMaximized={maximizedChart === "chart3"}
           >
             <div
-              className={`h-${
-                maximizedChart === "chart3" ? "[calc(100%-50px)]" : "[270px]"
-              }`}
+              style={{
+                height:
+                  maximizedChart === "chart3" ? "calc(100% - 50px)" : "270px",
+                overflow: "hidden",
+              }}
             >
               <canvas ref={chartRefs.chart3} />
             </div>
@@ -482,9 +487,11 @@ const Page = () => {
             isMaximized={maximizedChart === "chart4"}
           >
             <div
-              className={`h-${
-                maximizedChart === "chart4" ? "[calc(100%-50px)]" : "[270px]"
-              }`}
+              style={{
+                height:
+                  maximizedChart === "chart4" ? "calc(100% - 50px)" : "270px",
+                overflow: "hidden",
+              }}
             >
               <canvas ref={chartRefs.chart4} />
             </div>
@@ -498,9 +505,11 @@ const Page = () => {
             isMaximized={maximizedChart === "chart5"}
           >
             <div
-              className={`h-${
-                maximizedChart === "chart5" ? "[calc(100%-50px)]" : "[270px]"
-              }`}
+              style={{
+                height:
+                  maximizedChart === "chart5" ? "calc(100% - 50px)" : "270px",
+                overflow: "hidden",
+              }}
             >
               <canvas ref={chartRefs.chart5} />
             </div>
@@ -510,7 +519,7 @@ const Page = () => {
 
       {/* 최대화 상태일 때 */}
       {maximizedChart && (
-        <div className="absolute inset-0 bg-white z-10 p-4">
+        <div className="absolute inset-0 bg-white z-10 p-4 overflow-auto">
           <ChartCard
             title={
               maximizedChart === "chart1"
@@ -521,7 +530,7 @@ const Page = () => {
                 ? "검색 패턴"
                 : maximizedChart === "chart4"
                 ? "업데이트 기록"
-                : "다운로드 내역역"
+                : "다운로드 내역"
             }
             onClose={() => handleClose(maximizedChart)}
             onMaximize={() => handleMaximize(null)}
