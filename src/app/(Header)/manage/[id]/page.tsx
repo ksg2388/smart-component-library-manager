@@ -9,7 +9,7 @@ const Page = () => {
   const router = useRouter();
 
   return (
-    <div className="h-full mt-[16px] flex flex-col">
+    <div className="h-full mt-[8px] flex flex-col">
       <div className="flex w-full">
         <div className="flex-[3] flex justify-end">
           <button className=" text-white bg-black rounded-[6px] px-[8px] py-[6px]">
@@ -25,7 +25,7 @@ const Page = () => {
           </button>
         </div>
       </div>
-      <div className="flex flex-[3] w-full mt-[16px]">
+      <div className="flex flex-[3] w-full mt-[8px]">
         <div className="flex-[3] flex">
           <div className="w-full h-full">
             <div className="max-h-[390px] overflow-y-scroll">
