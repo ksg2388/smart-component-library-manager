@@ -68,7 +68,7 @@ const Header = () => {
           <div className="h-[28px] w-[28px] relative">
             <Image src={"/images/ic-bell.png"} alt={"home"} fill />
           </div>
-          <p>유저이름</p>
+          <p>admin</p>
           <button>로그아웃</button>
         </div>
       </div>
