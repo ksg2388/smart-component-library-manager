@@ -1,4 +1,5 @@
 import React, { ReactNode } from "react";
+import Sidebar from "../_components/common/Sidebar";
 import Header from "../_components/common/Header";
 
 type Props = {
@@ -7,9 +8,12 @@ type Props = {
 
 const layout = ({ children }: Props) => {
   return (
-    <div className="h-screen min-h-[900px] px-[20px] py-[20px] flex flex-col">
+    <div className="flex flex-col min-h-screen">
       <Header />
-      <div className="flex-1 mb-[12px]">{children}</div>
+      <div className="flex flex-1">
+        <Sidebar />
+        <div className="flex-1">{children}</div>
+      </div>
     </div>
   );
 };

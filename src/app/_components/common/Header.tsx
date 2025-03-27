@@ -1,81 +1,58 @@
 "use client";
 
-import { TMenu } from "@/app/_types/common/common.tyeps";
-import { usePathname } from "next/navigation";
-import React, { useEffect, useState } from "react";
-import TabBox from "./TabBox";
-import Image from "next/image";
-
-const menus: TMenu[] = [
-  {
-    imgUrl: "/images/ic-user.png",
-    imgAlt: "",
-    name: "유저",
-    href: "/user",
-  },
-  {
-    imgUrl: "/images/ic-homework.png",
-    imgAlt: "",
-    name: "라이브러리",
-    href: "/manage",
-  },
-  {
-    imgUrl: "/images/ic-report.png",
-    imgAlt: "",
-    name: "통계 및 리포트",
-    href: "/report",
-  },
-  {
-    imgUrl: "/images/ic-settings.png",
-    imgAlt: "",
-    name: "설정",
-    href: "/setting",
-  },
-  {
-    imgUrl: "/images/ic-log.png",
-    imgAlt: "",
-    name: "로그",
-    href: "/log",
-  },
-];
-
+import React, { useState, useRef, useEffect } from "react";
+import { useRouter } from "next/navigation";
 const Header = () => {
-  const [title, setTitle] = useState("홈");
-  const pathname = usePathname();
+  const router = useRouter();
+  const [showOptions, setShowOptions] = useState(false);
+  const optionsRef = useRef<HTMLDivElement>(null);
+
+  const handleLogout = () => {
+    // 로그아웃 로직 구현
+    console.log("로그아웃 처리");
+    router.push("/login");
+    setShowOptions(false);
+  };
 
   useEffect(() => {
-    const currentPath = pathname;
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        optionsRef.current &&
+        !optionsRef.current.contains(event.target as Node)
+      ) {
+        setShowOptions(false);
+      }
+    };
 
-    // 경로에 따라 title 값을 설정
-    if (currentPath.includes("/manage")) {
-      setTitle("라이브러리 관리");
-    } else {
-      setTitle("홈");
-    }
-  }, [pathname]); // 경로가 변경될 때마다 effect 실행
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   return (
-    <div
-      className="flex flex-col text-white border-[2px] 
-    border-[#D8D8D8] px-[20px] py-[12px]"
-    >
-      <div className="flex justify-between items-center">
-        <p className="text-[32px]">{title}</p>
-        <div className="flex gap-[8px] mr-[8px] items-center">
-          <div className="h-[28px] w-[28px] relative">
-            <Image src={"/images/ic-home.png"} alt={"home"} fill />
+    <div className="flex justify-between items-center text-white px-[30px] py-[12px] h-[50px] bg-black bg-opacity-30">
+      <p className="text-[20px]">{"logo"}</p>
+      <div className="flex gap-[8px] items-center relative">
+        <p
+          className="text-[14px] font-medium cursor-pointer hover:underline"
+          onClick={() => setShowOptions(!showOptions)}
+        >
+          admin님
+        </p>
+        {showOptions && (
+          <div
+            ref={optionsRef}
+            className="absolute top-[30px] right-0 bg-[#2E2E36] border border-gray-600 rounded-md shadow-lg z-10 w-[100px] items-center"
+          >
+            <button
+              className="w-full px-4 py-2 text-left text-white hover:bg-gray-700 text-[14px]"
+              onClick={handleLogout}
+            >
+              로그아웃
+            </button>
           </div>
-          <div className="h-[28px] w-[28px] relative">
-            <Image src={"/images/ic-bell.png"} alt={"home"} fill />
-          </div>
-          <p>admin</p>
-          <button>로그아웃</button>
-        </div>
-      </div>
-      <div className="flex gap-[8px] mt-[4px]">
-        {menus.map((menu) => (
-          <TabBox key={menu.name} tab={menu} />
-        ))}
+        )}
       </div>
     </div>
   );

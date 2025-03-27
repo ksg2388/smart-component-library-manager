@@ -10,15 +10,13 @@ type Props = {
 const TabBox = ({ tab }: Props) => {
   return (
     <Link
-      className="flex flex-col items-center justify-center border-[2px] border-[#D8D8D8] h-[86px] w-[94px] cursor-pointer group hover:bg-[#D8D8D8]"
+      className="flex items-center w-full hover:bg-gray-900 px-[12px] py-[8px] rounded-md"
       href={tab.href}
     >
-      <div className="h-[40px] w-[40px] relative group-hover:invert">
+      <div className="h-[28px] w-[28px] relative">
         <Image src={tab.imgUrl} alt={tab.imgAlt} fill />
       </div>
-      <p className="text-[12px] mt-[4px] group-hover:text-black p-1 transition-colors font-[600]">
-        {tab.name}
-      </p>
+      <p className="text-[14px] ml-[8px]">{tab.name}</p>
     </Link>
   );
 };

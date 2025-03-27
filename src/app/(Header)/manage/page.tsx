@@ -4,9 +4,10 @@ import React from "react";
 
 const page = () => {
   return (
-    <div className="h-full mt-[16px] flex flex-col">
+    <div className="h-full flex flex-col py-[20px] px-[30px]">
+      <div className="text-[28px] font-[600] text-white mb-7">라이브러리</div>
       <div className="flex items-center text-[16px] font-[500]">
-        <p className="text-white mr-[12px] ml-[12px]">카테고리</p>
+        <p className="text-white mr-[12px] ml-[4px]">카테고리</p>
         <div className="w-[160px]">
           <SelectBox
             options={[
@@ -30,7 +31,7 @@ const page = () => {
           />
         </div>
         <input className="border-[1px] border-[#D9D9D9] ml-[12px] rounded-[8px] w-[240px] h-[38px] outline-none px-[8px] bg-transparent text-white" />
-        <button className="bg-[#D9D9D9] text-black px-[8px] py-[6px] rounded-[6px] ml-[160px]">
+        <button className="bg-[#D9D9D9] text-black px-[8px] py-[6px] rounded-[6px] ml-[10px]">
           상세검색
         </button>
         <button className="bg-[#D9D9D9] text-black px-[20px] py-[6px] rounded-[6px] ml-auto">

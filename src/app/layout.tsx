@@ -32,7 +32,7 @@ export default function RootLayout({
       <body
         className={`${NotoSans.variable} ${geistSans.variable} ${geistMono.variable} antialiased bg-[#2E2E36]`}
       >
-        {children}
+        <div className="flex-1">{children}</div>
       </body>
     </html>
   );

@@ -243,10 +243,20 @@ const LibraryList = () => {
     if (page >= 1 && page <= totalPage) setCurPage(page);
   };
 
+  // 이미지 다운로드 함수
+  const downloadImage = () => {
+    const link = document.createElement("a");
+    link.href = "/images/ic-home.png";
+    link.download = "ic-home.png";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   return (
     <div className="flex-1 flex flex-col w-full mt-[16px]">
       {/* 헤더 */}
-      <div className="flex bg-[#8B8B8B] w-full flex-1">
+      <div className="flex bg-gray-800 w-full flex-1">
         {[
           { label: "선택", flex: "flex-[1.5]" },
           { label: "이름", flex: "flex-[8]" },
@@ -259,7 +269,7 @@ const LibraryList = () => {
         ].map((header, index) => (
           <p
             key={index}
-            className={`flex font-[600] items-center justify-center ${header.flex}`}
+            className={`flex font-[600] items-center justify-center ${header.flex} text-white`}
           >
             {header.label}
           </p>
@@ -270,7 +280,7 @@ const LibraryList = () => {
       {currentItems.map((item, index) => (
         <div
           key={index}
-          className="flex bg-[#CDCDCD] flex-1 w-full items-center"
+          className="flex bg-[#2E2E36] flex-1 w-full items-center border-b-[1px] border-[#3A3F44] hover:bg-gray-900 cursor-pointer"
         >
           <div className="flex font-[600] items-center justify-center flex-[1.5]">
             <input
@@ -281,40 +291,47 @@ const LibraryList = () => {
             />
           </div>
           <p
-            className="flex font-[600] items-center justify-center flex-[8] cursor-pointer"
+            className="flex font-[600] items-center justify-center flex-[8] cursor-pointer text-white"
             onClick={() => {
               router.push("/manage/1");
             }}
           >
             {item.name}
           </p>
-          <p className="flex font-[600] items-center justify-center flex-[2]">
+          <p className="flex font-[600] items-center justify-center flex-[2] text-white">
             {item.version}
           </p>
-          <p className="flex font-[600] items-center justify-center flex-[4]">
+          <p className="flex font-[600] items-center justify-center flex-[4] text-white">
             {item.registrationDate}
           </p>
-          <p className="flex font-[600] items-center justify-center flex-[4]">
+          <p className="flex font-[600] items-center justify-center flex-[4] text-white">
             {item.update}
           </p>
-          <p className="flex font-[600] items-center justify-center flex-[2]">
+          <p className="flex font-[600] items-center justify-center flex-[2] text-white">
             {item.frequency}
           </p>
-          <p className="flex font-[600] items-center justify-center flex-[2]">
+          <p className="flex font-[600] items-center justify-center flex-[2] text-white">
             {item.state}
           </p>
           <div className="flex font-[600] items-center justify-center flex-[2] relative">
-            <div className="w-[24px] h-[24px] relative">
-              <Image src={"/images/ic-download.png"} alt="donwload" fill />
+            <div
+              className="w-[24px] h-[24px] relative cursor-pointer"
+              onClick={downloadImage}
+            >
+              <Image
+                src={"/images/ic-download-white.png"}
+                alt="donwload"
+                fill
+              />
             </div>
           </div>
         </div>
       ))}
 
       {/* 페이지네이션 */}
-      <div className="flex bg-[#8B8B8B] h-[56px] w-full items-center justify-center py-2">
+      <div className="flex bg-[#2E2E36] h-[56px] w-full items-center justify-center py-2 mt-2">
         <button
-          className="px-4 py-2 mx-2 bg-[#CDCDCD] rounded"
+          className="px-4 py-2 mx-2 bg-[#5A5F66] rounded text-white"
           onClick={() => goToPage(curPage - 1)}
           disabled={curPage === 1}
         >
@@ -324,7 +341,9 @@ const LibraryList = () => {
           <button
             key={i}
             className={`px-3 py-1 mx-1 rounded ${
-              curPage === i + 1 ? "bg-[#1b1b1b] text-white" : "bg-[#CDCDCD]"
+              curPage === i + 1
+                ? "bg-[#1b1b1b] text-white"
+                : "bg-[#5A5F66] text-white"
             }`}
             onClick={() => goToPage(i + 1)}
           >
@@ -332,7 +351,7 @@ const LibraryList = () => {
           </button>
         ))}
         <button
-          className="px-4 py-2 mx-2 bg-[#CDCDCD] rounded"
+          className="px-4 py-2 mx-2 bg-[#5A5F66] rounded text-white"
           onClick={() => goToPage(curPage + 1)}
           disabled={curPage === totalPage}
         >
