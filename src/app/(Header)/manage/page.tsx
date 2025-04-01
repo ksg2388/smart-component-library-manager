@@ -17,7 +17,7 @@ const page = () => {
             defaultValue="기계"
           />
         </div>
-        <button className="bg-[#D9D9D9] text-black px-[8px] py-[6px] rounded-[6px] ml-[12px]">
+        <button className="bg-gray-500 text-white px-[12px] py-[6px] rounded-[6px] ml-[12px] hover:bg-gray-600">
           설정
         </button>
         <p className="text-white ml-[100px] mr-[12px]">검색조건</p>
@@ -31,19 +31,19 @@ const page = () => {
           />
         </div>
         <input className="border-[1px] border-[#D9D9D9] ml-[12px] rounded-[8px] w-[240px] h-[38px] outline-none px-[8px] bg-transparent text-white" />
-        <button className="bg-[#D9D9D9] text-black px-[8px] py-[6px] rounded-[6px] ml-[10px]">
+        <button className="bg-gray-500 text-white px-[12px] py-[6px] rounded-[6px] ml-[10px] hover:bg-gray-600">
           상세검색
         </button>
-        <button className="bg-[#D9D9D9] text-black px-[20px] py-[6px] rounded-[6px] ml-auto">
+        <button className="bg-gray-500 text-white px-[20px] py-[6px] rounded-[6px] ml-auto font-[500] hover:bg-gray-600">
           검색
         </button>
       </div>
       <div className="flex justify-end mt-[24px] w-full">
         <div className="flex">
-          <button className="text-white px-[8px] py-[4px] bg-black rounded-[6px]">
+          <button className="text-white px-[12px] py-[6px] bg-blue-600 rounded-[6px] hover:bg-blue-700">
             등록
           </button>
-          <button className="text-white px-[8px] py-[4px] bg-[#575757] rounded-[6px] ml-[8px]">
+          <button className="text-white px-[12px] py-[6px] bg-red-600 rounded-[6px] ml-[8px] hover:bg-red-700">
             삭제
           </button>
         </div>

@@ -224,7 +224,7 @@ const LibraryList = () => {
     useState<TLibrary[]>(initialLibraryList);
   const [curPage, setCurPage] = useState(1);
 
-  const itemsPerPage = 10;
+  const itemsPerPage = 4;
   const totalPage = Math.ceil(libraryList.length / itemsPerPage);
 
   const startIndex = (curPage - 1) * itemsPerPage;
@@ -246,8 +246,8 @@ const LibraryList = () => {
   // 이미지 다운로드 함수
   const downloadImage = () => {
     const link = document.createElement("a");
-    link.href = "/images/ic-home.png";
-    link.download = "ic-home.png";
+    link.href = "/Robotiq.vcmx";
+    link.download = "Robotiq.vcmx";
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -256,9 +256,10 @@ const LibraryList = () => {
   return (
     <div className="flex-1 flex flex-col w-full mt-[16px]">
       {/* 헤더 */}
-      <div className="flex bg-gray-800 w-full flex-1">
+      <div className="flex bg-gray-800 w-full h-[48px]">
         {[
           { label: "선택", flex: "flex-[1.5]" },
+          { label: "미리보기", flex: "flex-[2]" },
           { label: "이름", flex: "flex-[8]" },
           { label: "버전", flex: "flex-[2]" },
           { label: "등록일", flex: "flex-[4]" },
@@ -282,7 +283,7 @@ const LibraryList = () => {
           key={index}
           className="flex bg-[#2E2E36] flex-1 w-full items-center border-b-[1px] border-[#3A3F44] hover:bg-gray-900 cursor-pointer"
         >
-          <div className="flex font-[600] items-center justify-center flex-[1.5]">
+          <div className="flex items-center justify-center flex-[1.5]">
             <input
               type="checkbox"
               className="w-[24px] h-[24px]"
@@ -290,8 +291,16 @@ const LibraryList = () => {
               onChange={() => toggleSelect(index)}
             />
           </div>
+          <div className="flex items-center justify-center flex-[2]">
+            <Image
+              src={"/images/thumbnail.png"}
+              alt="thumbnail"
+              width={140}
+              height={140}
+            />
+          </div>
           <p
-            className="flex font-[600] items-center justify-center flex-[8] cursor-pointer text-white"
+            className="flex font-[600] items-center justify-center flex-[8] cursor-pointer text-white h-full"
             onClick={() => {
               router.push("/manage/1");
             }}
@@ -331,7 +340,7 @@ const LibraryList = () => {
       {/* 페이지네이션 */}
       <div className="flex bg-[#2E2E36] h-[56px] w-full items-center justify-center py-2 mt-2">
         <button
-          className="px-4 py-2 mx-2 bg-[#5A5F66] rounded text-white"
+          className="px-4 py-2 mx-2 bg-[#5A5F66] rounded text-white hover:bg-[#4A4F56]"
           onClick={() => goToPage(curPage - 1)}
           disabled={curPage === 1}
         >
@@ -343,7 +352,7 @@ const LibraryList = () => {
             className={`px-3 py-1 mx-1 rounded ${
               curPage === i + 1
                 ? "bg-[#1b1b1b] text-white"
-                : "bg-[#5A5F66] text-white"
+                : "bg-[#5A5F66] text-white hover:bg-[#4A4F56]"
             }`}
             onClick={() => goToPage(i + 1)}
           >
@@ -351,7 +360,7 @@ const LibraryList = () => {
           </button>
         ))}
         <button
-          className="px-4 py-2 mx-2 bg-[#5A5F66] rounded text-white"
+          className="px-4 py-2 mx-2 bg-[#5A5F66] rounded text-white hover:bg-[#4A4F56]"
           onClick={() => goToPage(curPage + 1)}
           disabled={curPage === totalPage}
         >
