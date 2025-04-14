@@ -2,14 +2,17 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import useUserStore from "@/app/stores/UserStore";
+
 const Header = () => {
   const router = useRouter();
   const [showOptions, setShowOptions] = useState(false);
   const optionsRef = useRef<HTMLDivElement>(null);
+  const { user, clearAll } = useUserStore();
 
   const handleLogout = () => {
     // 로그아웃 로직 구현
-    console.log("로그아웃 처리");
+    clearAll();
     router.push("/login");
     setShowOptions(false);
   };
@@ -38,7 +41,7 @@ const Header = () => {
           className="text-[14px] font-medium cursor-pointer hover:underline"
           onClick={() => setShowOptions(!showOptions)}
         >
-          admin님
+          {user?.username}님
         </p>
         {showOptions && (
           <div
